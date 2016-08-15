@@ -35,7 +35,9 @@ module.exports = function() {
 	}
 
 	//Gives Rozbot's response
-	this.respond = function(message, user) {
+	this.respond = function(message, user, extra) {
+		extra = extra || {};
+		extra.privateMessage = extra.privateMessage || false;
 		//Store whether or not an app wants to listen to the next message
 		var inAppScope = user.inAppScope
 		//Used to allow apps to get the next message
@@ -44,11 +46,19 @@ module.exports = function() {
 			var args = [message, user.send];
 			//Find the right command to run
 			var command = this.commandList.find(function(cmd) {
-					return cmd.condition(message) === true;
+					var userData = user.getData(cmd.name);
+					//Attach whether or not this is a private message
+					userData.privateMessage = extra.privateMessage;
+					return cmd.condition(message, userData ) === true;
 			});
 			//Run the command using user's contextual data (app by app basis)
 			if (command !== undefined) {
-				command.respond.apply(command, args.concat(user.getData(command.name)));
+				var userData = user.getData(command.name);
+				//Attach whether or not this is a private message
+				userData.privateMessage = extra.privateMessage;
+				//Attach the username
+				userData.username = user.username;
+				command.respond.apply(command, args.concat(userData));
 			}	
 		}
 	}
