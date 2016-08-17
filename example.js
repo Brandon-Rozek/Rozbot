@@ -23,6 +23,7 @@ rozbot.extend(require('./lib/commands/calculate.js'));
 rozbot.extend(require('./lib/commands/timer.js'));
 rozbot.extend(require('./lib/commands/search.js'));
 rozbot.extend(require('./lib/commands/naturalSpeech.js'));
+rozbot.extend(require('./lib/commands/extractArticle.js'));
 rozbot.extend(require('./lib/commands/queryDuckDuckGo.js'));
 
 rozbot.respond(process.argv[2], rozbot.getUser("Command Line") || rozbot.addUser("Command Line", function(msg) {
