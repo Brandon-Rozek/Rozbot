@@ -11,31 +11,8 @@ module.exports = function(username, sendMethod) {
 		//If it doesn't exist, create it
 		if (this.data[commandName] === undefined) {
 			this.data[commandName] = {
+				username: self.username,
 				properties: [],
-				setProperty: function(key, value) {
-					//First make sure it doesn't already exist
-					for (var i = 0; i < this.properties.length; i++) {
-						//If it does then update it						
-						if (this.properties[i].key === key) {
-							this.properties[i].value = value;
-							return;
-						}
-					}
-					//If it doesnt exist then add it to the properties array
-					this.properties.push({key: key, value: value});
-				},
-				getProperty: function(key) {
-					for (var i = 0; i < this.properties.length; i++) {
-						if (this.properties[i].key === key) {
-							return this.properties[i].value;
-						}
-					}
-					//Key does not exist
-					return null;
-				},
-				isset: function(key) {
-					return this.getProperty(key) !== null;
-				},
 				prompt: function(question) {
 					question = question || "is reading your next message";
 					//Inform user that the next input goes to the app
